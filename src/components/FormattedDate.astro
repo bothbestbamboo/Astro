@@ -1,15 +1,19 @@
 ---
-import { getFormattedDate } from "@/utils/date";
 import type { HTMLAttributes } from "astro/types";
 
 type Props = HTMLAttributes<"time"> & {
 	date: Date;
-	dateTimeOptions?: Intl.DateTimeFormatOptions;
 };
 
-const { date, dateTimeOptions, ...attrs } = Astro.props;
+const { date, ...attrs } = Astro.props;
 
-const postDate = getFormattedDate(date, dateTimeOptions);
+// 💡 直接在这里强行用美式英文格式化日期
+const postDate = new Intl.DateTimeFormat("en-US", {
+	year: "numeric",
+	month: "short",
+	day: "numeric",
+}).format(date);
+
 const ISO = date.toISOString();
 ---
 
